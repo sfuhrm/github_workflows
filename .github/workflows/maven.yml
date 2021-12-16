@@ -1,0 +1,64 @@
+#
+# Build a Maven project
+#
+name: Java CI with Maven
+
+on:
+  workflow_call:
+    inputs:
+      java_version:
+        required: false
+        type: string
+        default: 17
+        description: "The Java releases to build the software with (i.e. 11)."
+      maven_target:
+        required: false
+        type: string
+        default: package
+        description: "The Maven target to build, defaults to 'package'."
+      artifact_name:
+        required: true
+        type: string
+        description: "The artifact name to upload"
+      artifact_path:
+        required: true
+        type: string
+        description: "The path of the artifact to upload"
+    outputs:
+      maven_version:
+        description: "The Maven project version of the artifact. Example '1.1.2-SNAPSHOT'"
+        value: ${{ jobs.version.outputs.version }}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Set up JDK ${{ inputs.java_version }}
+      uses: actions/setup-java@v1
+      with:
+        java-version: ${{ inputs.java_version }}
+
+    - name: Cache local Maven repository
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+
+    - name: Extract current maven version
+      run: echo "::set-output name=version::$(mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout)"
+      id: version
+      shell: bash          
+
+    - name: Build with Maven
+      run: mvn -B ${{ inputs.maven_target }} --file pom.xml
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: ${{ inputs.artifact_name }}
+        path: ${{ inputs.artifact_path }}
