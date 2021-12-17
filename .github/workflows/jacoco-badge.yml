@@ -25,11 +25,11 @@ on:
         required: true
         type: string
         description: "The path of the jacoco CSV file in the project"
-      commiter_email:
+      committer_email:
         required: true
         type: string
         description: "EMail address of the commiter"
-      commiter_user:
+      committer_user:
         required: true
         type: string
         description: "User name of the commiter"
