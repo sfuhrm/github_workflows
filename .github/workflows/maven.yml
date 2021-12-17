@@ -9,8 +9,8 @@ on:
       java_version:
         required: false
         type: string
-        default: 17
-        description: "The Java releases to build the software with (i.e. 11)."
+        default: '17'
+        description: "Stringified JSON object listing the Java releases to build the software with (i.e. 11)."
       maven_target:
         required: false
         type: string
@@ -31,16 +31,19 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java_version: ${{fromJson(inputs.java_version)}}
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
 
     - uses: actions/checkout@v2
 
-    - name: Set up JDK ${{ inputs.java_version }}
+    - name: Set up JDK ${{ matrix.java_version }}
       uses: actions/setup-java@v1
       with:
-        java-version: ${{ inputs.java_version }}
+        java-version: ${{ matrix.java_version }}
 
     - name: Cache local Maven repository
       uses: actions/cache@v2
