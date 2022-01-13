@@ -38,6 +38,13 @@ jobs:
       version: ${{ steps.version.outputs.version }}
     steps:
 
+    - name: Print inputs
+      run: |
+        echo java_version=${{ inputs.java_version }}
+        echo maven_target=${{ inputs.maven_target }}
+        echo artifact_name=${{ inputs.artifact_name }}
+        echo artifact_path=${{ inputs.artifact_path }}
+
     - uses: actions/checkout@v2
 
     - name: Set up JDK ${{ matrix.java_version }}
