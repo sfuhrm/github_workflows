@@ -19,9 +19,9 @@ on:
     outputs:
       expression_value:
         description: "The Maven expression value that belongs to the input expression. Example '1.1.2-SNAPSHOT'"
-        value: ${{ jobs.build.outputs.expression_value }}
+        value: ${{ jobs.eval_job.outputs.expression_value }}
 jobs:
-  build:
+  eval_job:
     runs-on: ubuntu-latest
     outputs:
       expression_value: ${{ steps.evaluate.outputs.expression_value }}
