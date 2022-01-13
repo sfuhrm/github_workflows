@@ -24,7 +24,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      expression_value: ${{ steps.version.outputs.expression_value }}
+      expression_value: ${{ steps.expression_value.outputs.expression_value }}
     steps:
 
     - uses: actions/checkout@v2
