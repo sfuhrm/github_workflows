@@ -34,7 +34,7 @@ jobs:
       with:
         java-version: ${{ inputs.java_version }}
 
-    - name: Extract current maven version
+    - name: Evaluate maven expression
       run: echo "::set-output name=expression_value::$(mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=${{ inputs.expression }} -q -DforceStdout)"
       id: expression_value
       shell: bash          
