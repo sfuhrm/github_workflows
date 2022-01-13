@@ -27,6 +27,11 @@ jobs:
       expression_value: ${{ steps.evaluate.outputs.expression_value }}
     steps:
 
+    - name: Print inputs
+      run: |
+        echo java_version=${{ inputs.java_version }}
+        echo expression=${{ inputs.expression }}
+
     - uses: actions/checkout@v2
 
     - name: Set up JDK ${{ inputs.java_version }}
@@ -40,4 +45,4 @@ jobs:
       shell: bash
 
     - name: Print maven expression value
-      run: echo ${{ steps.evaluate.outputs.expression_value }}
+      run: echo expression_value=${{ steps.evaluate.outputs.expression_value }}
