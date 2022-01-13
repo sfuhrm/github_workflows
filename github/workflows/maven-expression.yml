@@ -1,0 +1,40 @@
+#
+# Evaluate some artifact coordinates
+#
+name: Maven artifact expression evaluation
+
+on:
+  workflow_call:
+    inputs:
+      java_version:
+        required: false
+        type: string
+        default: '17'
+        description: "Java release to build the software with (i.e. 11)."
+      expression:
+        required: false
+        type: string
+        default: 'project.version'
+        description: "Maven variable to return."
+    outputs:
+      expression_value:
+        description: "The Maven expression value that belongs to the input expression. Example '1.1.2-SNAPSHOT'"
+        value: ${{ jobs.version.outputs.expression_value }}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      expression_value: ${{ steps.version.outputs.expression_value }}
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Set up JDK ${{ inputs.java_version }}
+      uses: actions/setup-java@v1
+      with:
+        java-version: ${{ inputs.java_version }}
+
+    - name: Extract current maven version
+      run: echo "::set-output name=expression_value::$(mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=${{ inputs.expression }} -q -DforceStdout)"
+      id: expression_value
+      shell: bash          
