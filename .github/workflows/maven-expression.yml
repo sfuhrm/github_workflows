@@ -40,4 +40,4 @@ jobs:
       shell: bash
 
     - name: Print maven expression value
-      run: echo ${{ jobs.expression_value.outputs.expression_value }}
+      run: echo ${{ steps.expression_value.outputs.expression_value }}
