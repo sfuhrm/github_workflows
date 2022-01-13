@@ -19,7 +19,7 @@ on:
     outputs:
       expression_value:
         description: "The Maven expression value that belongs to the input expression. Example '1.1.2-SNAPSHOT'"
-        value: ${{ jobs.version.outputs.expression_value }}
+        value: ${{ jobs.expression_value.outputs.expression_value }}
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -37,4 +37,7 @@ jobs:
     - name: Evaluate maven expression
       run: echo "::set-output name=expression_value::$(mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=${{ inputs.expression }} -q -DforceStdout)"
       id: expression_value
-      shell: bash          
+      shell: bash
+
+    - name: Print maven expression value
+      run: echo ${{ jobs.expression_value.outputs.expression_value }}
