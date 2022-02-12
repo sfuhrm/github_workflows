@@ -4,6 +4,10 @@ name: Snapshot-release Maven Build to Sonatype OSS
 on:
   workflow_call:
     inputs:
+      environment:
+        required: true
+        type: string
+        description: "Secret environment to use."
       java_version:
         required: false
         type: string
@@ -24,6 +28,7 @@ on:
 
 jobs:
   build:
+    environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
