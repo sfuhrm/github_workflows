@@ -9,9 +9,10 @@ for the basics.
 Overview
 ---
 
-* maven.yml: Build a Java artifact.
-* jacoco-badge.yml: Calculate a Jacoco coverage badge icon and store it in the repository.
-* maven-expression.yml: Calculate a Maven expression (i.e. a variable expansion for `project.version`) and store it as an usable output.
+* `maven.yml`: Build a Java artifact.
+* `jacoco-badge.yml`: Calculate a Jacoco coverage badge icon and store it in the repository.
+* `maven-expression.yml`: Calculate a Maven expression (i.e. a variable expansion for `project.version`) and store it as an usable output.
+* `maven-deploy-snapshot-sonatype-oss.yml`: Build and deploy a snapshot to Sonatype OSS.
 
 Status
 ---
