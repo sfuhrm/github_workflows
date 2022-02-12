@@ -7,7 +7,7 @@ on:
       environment:
         required: true
         type: string
-        description: "Secret environment to use."
+        description: "Github secret environment to use. This is the environment where the secrets sonatype_user and sonatype_password are in."
       java_version:
         required: false
         type: string
