@@ -50,7 +50,7 @@ jobs:
           SONATYPE_PASSWORD: ${{ secrets.sonatype_password }}
         run: |
           if [ "${SONATYPE_USER}" != "" -a "${SONATYPE_PASSWORD}" != "" ]; then
-            curl https://raw.githubusercontent.com/sfuhrm/github_workflows/main/.github/maven-release-snapshot-settings.xml > /tmp/settings.xml
+            curl https://raw.githubusercontent.com/sfuhrm/github_workflows/main/.github/maven-deploy-snapshot-sonatype-oss-settings.xml > /tmp/settings.xml
             mvn -B clean ${{ inputs.maven_target }} \
                 -Dgpg.skip=true \
                 -Dgithub.site.upload.skip=false \
