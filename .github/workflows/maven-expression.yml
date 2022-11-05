@@ -40,7 +40,7 @@ jobs:
         java-version: ${{ inputs.java_version }}
 
     - name: Evaluate maven expression
-      run: echo "::set-output name=expression_value::$(mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=${{ inputs.expression }} -q -DforceStdout)"
+      run: echo "expression_value=$(mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=${{ inputs.expression }} -q -DforceStdout)" >> $GITHUB_OUTPUT
       id: evaluate
       shell: bash
 
