@@ -41,9 +41,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+          key: maven-sonatype-deploy
       - name: Deploy snapshots to OSS Sonatype
         env:
           SONATYPE_USER: ${{ secrets.sonatype_user }}
