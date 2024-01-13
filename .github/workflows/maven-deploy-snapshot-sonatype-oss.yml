@@ -4,6 +4,10 @@ name: Snapshot-release Maven Build to Sonatype OSS
 on:
   workflow_call:
     inputs:
+      environment:
+        required: true
+        type: string
+        description: "Github secret environment to use. This is the environment where the secrets sonatype_user and sonatype_password are in."
       java_version:
         required: false
         type: string
@@ -24,6 +28,7 @@ on:
 
 jobs:
   build:
+    environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -45,7 +50,7 @@ jobs:
           SONATYPE_PASSWORD: ${{ secrets.sonatype_password }}
         run: |
           if [ "${SONATYPE_USER}" != "" -a "${SONATYPE_PASSWORD}" != "" ]; then
-            curl https://raw.githubusercontent.com/sfuhrm/github_workflows/main/.github/maven-release-snapshot-settings.xml > /tmp/settings.xml
+            curl https://raw.githubusercontent.com/sfuhrm/github_workflows/main/.github/maven-deploy-snapshot-sonatype-oss-settings.xml > /tmp/settings.xml
             mvn -B clean ${{ inputs.maven_target }} \
                 -Dgpg.skip=true \
                 -Dgithub.site.upload.skip=false \
