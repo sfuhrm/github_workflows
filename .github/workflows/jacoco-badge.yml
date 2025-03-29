@@ -25,14 +25,11 @@ on:
         required: true
         type: string
         description: "The path of the jacoco CSV file in the project"
-      committer_email:
-        required: true
+      badge_branch:
+        required: false
         type: string
-        description: "EMail address of the commiter"
-      committer_user:
-        required: true
-        type: string
-        description: "User name of the commiter"
+        description: "Branch name where to put the badge image"
+        default: gh-pages
 
 jobs:
   build:
@@ -64,7 +61,7 @@ jobs:
     - uses: casperdcl/push-dir@v1
       with:
         message: update static site
-        branch: gh-pages
+        branch: ${{ inputs.badge_branch }}
         dir: .github/badges
         history: false
         nojekyll: true
