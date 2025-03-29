@@ -71,5 +71,5 @@ jobs:
 
     - uses: actions/upload-artifact@v4
       with:
-        name: ${{ inputs.artifact_name }}_${{ inputs.java_version }}
+        name: ${{ inputs.artifact_name }}_${{ matrix.java_version }}
         path: ${{ inputs.artifact_path }}
