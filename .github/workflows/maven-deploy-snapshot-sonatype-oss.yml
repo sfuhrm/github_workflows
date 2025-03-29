@@ -11,7 +11,7 @@ on:
       java_version:
         required: false
         type: string
-        default: 11
+        default: 21
         description: "Java releases to build the software with (i.e. 11)."
       maven_target:
         required: false
