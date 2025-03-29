@@ -32,7 +32,7 @@ on:
         default: gh-pages
 
 jobs:
-  build:
+  jacoco-coverage:
     runs-on: ubuntu-latest
 
     steps:
