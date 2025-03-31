@@ -1,7 +1,5 @@
-#
-# Build a Maven project
-#
-name: Java CI with Maven
+---
+name: Spotbugs with Maven
 
 on:
   workflow_call:
