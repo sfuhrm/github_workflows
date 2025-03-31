@@ -7,7 +7,7 @@ on:
         required: false
         type: string
         default: 21
-        description: "The Java release to build the software with (i.e. 11)."
+        description: "The Java releases to build the software with (i.e. 11)."
       maven_target:
         required: false
         type: string
@@ -24,7 +24,7 @@ on:
       jacoco_csv_path:
         required: true
         type: string
-        description: "Stringified JSON object listing of the path of the jacoco CSV file in the project"
+        description: "The path of the jacoco CSV file in the project"
       badge_branch:
         required: false
         type: string
@@ -51,7 +51,7 @@ jobs:
       id: jacoco
       uses: cicirello/jacoco-badge-generator@v2.11.0
       with:
-        jacoco-csv-file: ${{fromJson(inputs.jacoco_csv_path }}
+        jacoco-csv-file: ${{ inputs.jacoco_csv_path }}
 
     - name: Log coverage percentage
       run: |
