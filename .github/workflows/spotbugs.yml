@@ -15,7 +15,7 @@ on:
         description: "The artifact name to upload"
 
 jobs:
-  build:
+  spotbugs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -47,9 +47,9 @@ jobs:
       run: echo "path=$(find . -ipath '*spotbugs.*')" >> "$GITHUB_OUTPUT"
 
     - name: Found paths
-      run: "echo ${{ outputs.path }}"
+      run: "echo ${{ steps.spotbugs.outputs.path }}"
 
     - uses: actions/upload-artifact@v4
       with:
         name: ${{ inputs.artifact_name }}_${{ matrix.java_version }}
-        path: ${{ outputs,path }}
+        path: ${{ steps.spotbugs.outputs.path }}
