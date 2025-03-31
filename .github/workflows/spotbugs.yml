@@ -44,7 +44,7 @@ jobs:
       run: mvn install && mvn com.github.spotbugs:spotbugs-maven-plugin:4.9.3.0:spotbugs -Dspotbugs.xmlOutput=true -Dspotbugs.htmlOutput=true
 
     - name: Collect spotbugs output
-      run: "echo "path=$(find . -ipath '*spotbugs.*')" >> "$GITHUB_OUTPUT"
+      run: echo "path=$(find . -ipath '*spotbugs.*')" >> "$GITHUB_OUTPUT"
 
     - name: Found paths
       run: "echo ${{ outputs.path }}"
