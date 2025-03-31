@@ -15,10 +15,7 @@ on:
         required: true
         type: string
         description: "The artifact name to upload"
-      artifact_path:
-        required: true
-        type: string
-        description: "The path of the artifact to upload"
+
 jobs:
   build:
     runs-on: ubuntu-latest
