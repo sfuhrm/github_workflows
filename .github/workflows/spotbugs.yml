@@ -44,12 +44,13 @@ jobs:
       run: mvn install && mvn com.github.spotbugs:spotbugs-maven-plugin:4.9.3.0:spotbugs -Dspotbugs.xmlOutput=true -Dspotbugs.htmlOutput=true
 
     - name: Collect spotbugs output
+      id: path
       run: echo "path=$(find . -ipath '*spotbugs.*' -printf '%p ')" >> "$GITHUB_OUTPUT"
 
     - name: Found paths
-      run: "echo ${{ steps.spotbugs.outputs.path }}"
+      run: "echo ${{ steps.path.outputs.path }}"
 
     - uses: actions/upload-artifact@v4
       with:
         name: ${{ inputs.artifact_name }}_${{ matrix.java_version }}
-        path: ${{ steps.spotbugs.outputs.path }}
+        path: ${{ steps.path.outputs.path }}
