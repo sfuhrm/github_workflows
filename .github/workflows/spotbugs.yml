@@ -8,7 +8,7 @@ on:
         required: false
         type: string
         default: '21'
-        description: "Stringified JSON object listing the Java releases to build the software with (i.e. 11)."
+        description: "Java release to build the software with (i.e. 11)."
       artifact_name:
         required: true
         type: string
@@ -17,19 +17,16 @@ on:
 jobs:
   spotbugs:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        java_version: ${{fromJson(inputs.java_version)}}
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
 
     - uses: actions/checkout@v3
 
-    - name: Set up JDK ${{ matrix.java_version }}
+    - name: Set up JDK ${{ inputs.java_version }}
       uses: actions/setup-java@v3
       with:
-        java-version: ${{ matrix.java_version }}
+        java-version: ${{ inputs.java_version }}
         distribution: temurin
 
     - name: Cache local Maven repository
@@ -45,7 +42,7 @@ jobs:
 
     - uses: actions/upload-artifact@v4
       with:
-        name: ${{ inputs.artifact_name }}_${{ matrix.java_version }}
+        name: ${{ inputs.artifact_name }}
         path: |
           ./**/spotbugs.xml
           ./**/spotbugs.html
