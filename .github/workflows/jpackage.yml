@@ -15,9 +15,9 @@ on:
         default: package
         description: "The Maven target to build, defaults to 'package'."
       artifact_name:
-        type: string
-        description: "The artifact name to upload"
         required: false
+        type: string
+        description: "The artifact name to upload, defaults to 'jpackage'"
         default: "jpackage"
       jpackage_input:
         required: true
