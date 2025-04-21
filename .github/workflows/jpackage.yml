@@ -165,10 +165,10 @@ jobs:
           java-version: ${{ inputs.java_version }}
       - name: Build package
         run: |
-          APP_CATEGORY=${{ jpackage_linux_deb_app_category }}
+          APP_CATEGORY="${{ inputs.jpackage_linux_deb_app_category }}"
           if test "${{ matrix.style }}" = "redhat"; then
             PACKAGE_VERSION=$(echo ${PACKAGE_VERSION} | cut -d"-" -f1)
-            APP_CATEGORY=${{ jpackage_linux_rpm_app_category }}
+            APP_CATEGORY="${{ inputs.jpackage_linux_rpm_app_category }}"
             echo "Fixing RPM version to ${PACKAGE_VERSION}"
           fi
           jpackage \
