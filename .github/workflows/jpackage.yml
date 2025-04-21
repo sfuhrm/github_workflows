@@ -180,7 +180,7 @@ jobs:
         shell: bash
       - uses: actions/upload-artifact@v4
         with:
-          name: packages-${{ matrix.jpackage_type }}
+          name: packages-${{ matrix.jpackage_type }}-${{ matrix.style }}
           path: jpackage-app/${{ steps.packagename.outputs.packagename }}
 
   ###
