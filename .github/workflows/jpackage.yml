@@ -165,13 +165,13 @@ jobs:
           fi
           jpackage \
             --main-jar ${{ inputs.jpackage_jarfile }} \
-            --type ${{ matrix.jpkg_type }} \
-            --app-version ${PACKAGE_VERSION} \
-            --input ${{ matrix.jpackage_input }} \
-            --license-file ${{ inputs.jpackage_license }} \
-            --linux-deb-maintainer ${{ inputs.jpackage_linux_deb_maintainer }} \
-            --linux-app-category ${{ inputs.jpackage_linux_app_category }} \
-            --install-dir  ${{ inputs.jpackage_linux_install_dir }}  \
+            --type "${{ matrix.jpkg_type }}" \
+            --app-version "${PACKAGE_VERSION}" \
+            --input "${{ inputs.jpackage_input }}" \
+            --license-file "${{ inputs.jpackage_license }}" \
+            --linux-deb-maintainer "${{ inputs.jpackage_linux_deb_maintainer }}" \
+            --linux-app-category "${{ inputs.jpackage_linux_app_category }}" \
+            --install-dir "${{ inputs.jpackage_linux_install_dir }}" \
             ${{ env.JPACKAGE_COMMON_OPTS }}
       - name: Extract package name
         run: echo "packagename=$(ls)" >> $GITHUB_OUTPUT
@@ -220,12 +220,12 @@ jobs:
         run: |
           PACKAGE_VERSION=$(echo ${PACKAGE_VERSION} | cut -d"-" -f1)
           jpackage \
-            --main-jar ${{ inputs.jpackage_jarfile }} \
-            --type ${{ matrix.jpkg_type }} \
-            --app-version ${PACKAGE_VERSION} \
-            --input ${{ matrix.jpackage_input }} \
-            --license-file ${{ inputs.jpackage_license }} \
-            --install-dir ${{ inputs.jpackage_macos_install_dir }} \
+            --main-jar "${{ inputs.jpackage_jarfile }}" \
+            --type "${{ matrix.jpkg_type }}" \
+            --app-version "${PACKAGE_VERSION}" \
+            --input "${{ inputs.jpackage_input }}" \
+            --license-file "${{ inputs.jpackage_license }}" \
+            --install-dir "${{ inputs.jpackage_macos_install_dir }}" \
             ${{ env.JPACKAGE_COMMON_OPTS }}
       - name: Extract package name
         run: echo "packagename=$(ls)" >> $GITHUB_OUTPUT
@@ -267,13 +267,13 @@ jobs:
         run: |
           PACKAGE_VERSION=$(echo ${PACKAGE_VERSION} | cut -d"-" -f1)
           jpackage \
-            --main-jar ${{ inputs.jpackage_jarfile }} \
-            --type ${{ matrix.jpkg_type }} \
-            --app-version ${PACKAGE_VERSION} \
-            --input ${{ matrix.jpackage_input }} \
-            --license-file ${{ inputs.jpackage_license }} \
+            --main-jar "${{ inputs.jpackage_jarfile }}" \
+            --type "${{ matrix.jpkg_type }}" \
+            --app-version "${PACKAGE_VERSION}" \
+            --input "${{ inputs.jpackage_input }}" \
+            --license-file "${{ inputs.jpackage_license }}" \
             --win-console \
-            --win-upgrade-uuid ${{ inputs.jpackage_win_upgrade_uuid }} \
+            --win-upgrade-uuid "${{ inputs.jpackage_win_upgrade_uuid }}" \
             ${{ env.JPACKAGE_COMMON_OPTS }}
         shell: bash
       - name: Extract package name
