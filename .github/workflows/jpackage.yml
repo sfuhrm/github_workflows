@@ -79,6 +79,11 @@ on:
         required: true
         type: string
         description: "Matches the --win-upgrade-uuid flag of jpackage."
+      jpackage_additional_options:
+        required: false
+        type: string
+        description: "Additional options to pass to jpackage."
+        default: ""
 
 env:
   JPACKAGE_COMMON_OPTS: |
@@ -88,7 +93,8 @@ env:
             --description "${{ inputs.jpackage_description }}" \
             --main-class "${{ inputs.jpackage_mainclass }}" \
             --dest jpackage-app \
-            --verbose
+            --verbose \
+            ${{ inputs.jpackage_additional_options }}
 
 jobs:
   build:
