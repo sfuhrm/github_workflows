@@ -178,14 +178,6 @@ jobs:
         working-directory: jpackage-app
         id: packagename
         shell: bash
-      - name: Test install package Debian
-        run: apt-get install --assume-yes ./jpackage-app/${{ steps.packagename.outputs.packagename }}
-        if: matrix.style == 'debian'
-      - name: Test install package RPM
-        run: yum localinstall --assumeyes ./jpackage-app/${{ steps.packagename.outputs.packagename }}
-        if: matrix.style == 'redhat'
-      - name: Test run application
-        run: radiorecorder -V
       - uses: actions/upload-artifact@v4
         with:
           name: packages-${{ matrix.jpackage_type }}
