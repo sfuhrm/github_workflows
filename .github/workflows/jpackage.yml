@@ -55,7 +55,12 @@ on:
         required: true
         type: string
         description: "Matches the --linux-deb-maintainer flag of jpackage."
-      jpackage_linux_app_category:
+      jpackage_linux_deb_app_category:
+        required: false
+        type: string
+        description: "Matches the --linux-app-category flag of jpackage. See sections here: https://packages.debian.org/unstable/"
+        default: utils
+      jpackage_linux_rpm_app_category:
         required: false
         type: string
         description: "Matches the --linux-app-category flag of jpackage."
@@ -160,8 +165,10 @@ jobs:
           java-version: ${{ inputs.java_version }}
       - name: Build package
         run: |
+          APP_CATEGORY=${{ jpackage_linux_deb_app_category }}
           if test "${{ matrix.style }}" = "redhat"; then
             PACKAGE_VERSION=$(echo ${PACKAGE_VERSION} | cut -d"-" -f1)
+            APP_CATEGORY=${{ jpackage_linux_rpm_app_category }}
             echo "Fixing RPM version to ${PACKAGE_VERSION}"
           fi
           jpackage \
@@ -171,7 +178,7 @@ jobs:
             --input "${{ inputs.jpackage_input }}" \
             --license-file "${{ inputs.jpackage_license }}" \
             --linux-deb-maintainer "${{ inputs.jpackage_linux_deb_maintainer }}" \
-            --linux-app-category "${{ inputs.jpackage_linux_app_category }}" \
+            --linux-app-category "$APP_CATEGORY" \
             --install-dir "${{ inputs.jpackage_linux_install_dir }}" \
             ${{ env.JPACKAGE_COMMON_OPTS }}
       - name: Extract package name
