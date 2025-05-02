@@ -51,7 +51,7 @@ jobs:
     - name: Run spotbugs with Plugins
       run: |
         SOURCEPATH=$(find -ipath "**/src/main/java" -printf "%p:")
-        /tmp/spotbugs/bin/spotbugs -projectName Project -textui -pluginList "/tmp/findsecbugs-plugin.jar:/tmp/fb-contrib.jar" -sourcepath "${SOURCEPATH}" -html:fancy.xsl=spotbugs.html -xml=spotbugs.xml -low $(find -ipath **/target/**/*.class)
+        /tmp/spotbugs/bin/spotbugs -projectName Project -textui -pluginList "/tmp/findsecbugs-plugin.jar:/tmp/fb-contrib.jar" -sourcepath "${SOURCEPATH}" -html:fancy.xsl=spotbugs.html -xml=spotbugs.xml -low -longBugCodes $(find -ipath **/target/**/*.class)
 
     - uses: actions/upload-artifact@v4
       with:
