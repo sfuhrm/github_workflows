@@ -42,7 +42,7 @@ jobs:
         with:
           path: ~/.m2/repository
           key: maven-sonatype-deploy
-      - name: Deploy snapshots to OSS Sonatype
+      - name: Deploy snapshots to Central Sonatype
         env:
           SONATYPE_USER: ${{ secrets.sonatype_user }}
           SONATYPE_PASSWORD: ${{ secrets.sonatype_password }}
@@ -52,6 +52,7 @@ jobs:
             mvn -B clean ${{ inputs.maven_target }} \
                 -Dgpg.skip=true \
                 -Dgithub.site.upload.skip=false \
+                -Prelease \
                 -s /tmp/settings.xml
           else
             echo "Not deploying, secrets SONATYPE_USER and SONATYPE_PASSWORD not provided"
