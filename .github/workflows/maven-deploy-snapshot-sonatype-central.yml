@@ -52,6 +52,7 @@ jobs:
             mvn -B clean ${{ inputs.maven_target }} \
                 -Dgpg.skip=true \
                 -Dgithub.site.upload.skip=false \
+                -DaltDeploymentRepository=central::default::https://central.sonatype.com/repository/maven-snapshots/ \
                 -Prelease \
                 -s /tmp/settings.xml
           else
