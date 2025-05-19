@@ -1,0 +1,58 @@
+# Deploy a snapshot to SONATYPE Central
+name: Snapshot-release Maven Build to Sonatype Central
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+        description: "Github secret environment to use. This is the environment where the secrets sonatype_user and sonatype_password are in."
+      java_version:
+        required: false
+        type: string
+        default: 21
+        description: "Java releases to build the software with (i.e. 11)."
+      maven_target:
+        required: false
+        type: string
+        default: deploy
+        description: "The Maven target to build, defaults to 'deploy'."
+    secrets:
+      sonatype_user:
+        required: true
+        description: "The username for the sonatype oss repository."
+      sonatype_password:
+        required: true
+        description: "The password for the sonatype oss repository."
+
+jobs:
+  build:
+    environment: ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK ${{ inputs.java_version }}
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ inputs.java_version }}
+          distribution: temurin
+      - name: Cache local Maven repository
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: maven-sonatype-deploy
+      - name: Deploy snapshots to OSS Sonatype
+        env:
+          SONATYPE_USER: ${{ secrets.sonatype_user }}
+          SONATYPE_PASSWORD: ${{ secrets.sonatype_password }}
+        run: |
+          if [ "${SONATYPE_USER}" != "" -a "${SONATYPE_PASSWORD}" != "" ]; then
+            curl https://raw.githubusercontent.com/sfuhrm/github_workflows/main/.github/maven-deploy-snapshot-sonatype-central-settings.xml > /tmp/settings.xml
+            mvn -B clean ${{ inputs.maven_target }} \
+                -Dgpg.skip=true \
+                -Dgithub.site.upload.skip=false \
+                -s /tmp/settings.xml
+          else
+            echo "Not deploying, secrets SONATYPE_USER and SONATYPE_PASSWORD not provided"
+          fi
