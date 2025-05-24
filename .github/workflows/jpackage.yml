@@ -389,7 +389,7 @@ jobs:
     needs:
       - build
       - jpackage_linux
-      - jpackage_linux_arm
+      - jpackage_linux_multiarch
       - jpackage_macos
       - jpackage_windows
     runs-on: ubuntu-latest
