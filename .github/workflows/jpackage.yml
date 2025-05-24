@@ -148,7 +148,7 @@ jobs:
       PATH_SEPARATOR: "/"
     steps:
       - name: Download build
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v4
         with:
           name: build
       - name: Setup Debian container
@@ -218,7 +218,7 @@ jobs:
       PATH_SEPARATOR: "/"
     steps:
       - name: Download build
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v4
         with:
           name: build
       - name: Set up JDK
@@ -267,7 +267,7 @@ jobs:
       PATH_SEPARATOR: "\\"
     steps:
       - name: Download build
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v4
         with:
           name: build
       - name: Set up JDK
@@ -333,7 +333,7 @@ jobs:
           sudo apt-get install -y qemu-user-static
           docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
-      - name: Download build artifact
+      - name: Download build
         uses: actions/download-artifact@v4
         with:
           name: build
@@ -373,8 +373,7 @@ jobs:
                 ${{ inputs.jpackage_additional_options }}
             "
 
-      - name: Archive ${{ matrix.arch }} package
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: packages-${{ matrix.arch }}
           path: jpackage-app/
@@ -389,7 +388,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download package artifacts
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v4
         with:
           path: packages
           pattern: packages-*
