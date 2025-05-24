@@ -312,11 +312,6 @@ jobs:
             distro: debian:bullseye-slim
             jpkg_type: deb
             adoptium_arch: aarch64
-          - arch: armhf
-            platform: linux/arm/v7
-            distro: debian:bullseye-slim
-            jpkg_type: deb
-            adoptium_arch: arm
           - arch: ppc64le
             platform: linux/ppc64le
             distro: ubuntu:20.04
