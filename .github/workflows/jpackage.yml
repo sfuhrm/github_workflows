@@ -305,12 +305,13 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Install Docker and QEMU
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Enable QEMU for multiarch
         run: |
           sudo apt-get update
-          sudo apt-get install -y qemu-user-static docker.io
-          sudo systemctl start docker
-          docker --version
+          sudo apt-get install -y qemu-user-static
           docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
       - name: Download build artifact
@@ -325,8 +326,8 @@ jobs:
             -w /workspace \
             debian:bullseye-slim /bin/bash -c "
               apt-get update && \
-              DEBIAN_FRONTEND=noninteractive apt-get install -y curl unzip fakeroot binutils openjdk-17-jdk-headless && \
-              echo 'Creating output dir' && mkdir -p jpackage-app && \
+              apt-get install -y curl unzip fakeroot binutils openjdk-17-jdk-headless && \
+              mkdir -p jpackage-app && \
               jpackage \
                 --type deb \
                 --input '${{ inputs.jpackage_input }}' \
