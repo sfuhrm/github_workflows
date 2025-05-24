@@ -21,10 +21,10 @@ on:
     secrets:
       sonatype_user:
         required: true
-        description: "The username for the sonatype oss repository."
+        description: "The username for the sonatype central repository."
       sonatype_password:
         required: true
-        description: "The password for the sonatype oss repository."
+        description: "The password for the sonatype central repository."
 
 jobs:
   build:
