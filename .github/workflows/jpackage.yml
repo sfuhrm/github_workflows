@@ -307,9 +307,22 @@ jobs:
     container:
       image: multiarch/qemu-user-static
     steps:
+      - name: Install Docker and QEMU
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-user-static docker.io
+          sudo systemctl start docker
+          docker --version
+          docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+
       - name: Set up binfmt for ARM
         run: |
           docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build
 
       - name: Run ARM64 jpackage in Docker
         run: |
