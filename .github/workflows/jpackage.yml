@@ -304,8 +304,6 @@ jobs:
   jpackage_linux_arm:
     needs: build
     runs-on: ubuntu-latest
-    container:
-      image: multiarch/qemu-user-static
     steps:
       - name: Install Docker and QEMU
         run: |
@@ -313,10 +311,6 @@ jobs:
           sudo apt-get install -y qemu-user-static docker.io
           sudo systemctl start docker
           docker --version
-          docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-
-      - name: Set up binfmt for ARM
-        run: |
           docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
       - name: Download build artifact
@@ -331,9 +325,8 @@ jobs:
             -w /workspace \
             debian:bullseye-slim /bin/bash -c "
               apt-get update && \
-              apt-get install -y curl openjdk-${{ inputs.java_version }}-jdk-headless fakeroot binutils && \
-              update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-${{ inputs.java_version }}-openjdk-arm64/bin/java 1 && \
-              mkdir -p jpackage-app && \
+              DEBIAN_FRONTEND=noninteractive apt-get install -y curl unzip fakeroot binutils openjdk-17-jdk-headless && \
+              echo 'Creating output dir' && mkdir -p jpackage-app && \
               jpackage \
                 --type deb \
                 --input '${{ inputs.jpackage_input }}' \
