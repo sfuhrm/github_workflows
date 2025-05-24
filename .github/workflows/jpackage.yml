@@ -299,16 +299,41 @@ jobs:
           path: jpackage-app/${{ steps.packagename.outputs.packagename }}
 
   ###
-  ### Linux ARM64 via QEMU
+  ### Linux Build via QEMU
   ###
-  jpackage_linux_arm:
+  jpackage_linux_multiarch:
+    if: ${{ inputs.build_linux_arm }}
     needs: build
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - arch: arm64
+            platform: linux/arm64
+            distro: debian:bullseye-slim
+            jpkg_type: deb
+            adoptium_arch: aarch64
+          - arch: armhf
+            platform: linux/arm/v7
+            distro: debian:bullseye-slim
+            jpkg_type: deb
+            adoptium_arch: arm
+          - arch: ppc64le
+            platform: linux/ppc64le
+            distro: ubuntu:20.04
+            jpkg_type: deb
+            adoptium_arch: ppc64le
+          - arch: s390x
+            platform: linux/s390x
+            distro: ubuntu:20.04
+            jpkg_type: deb
+            adoptium_arch: s390x
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Enable QEMU for multiarch
+      - name: Enable QEMU
         run: |
           sudo apt-get update
           sudo apt-get install -y qemu-user-static
@@ -319,17 +344,24 @@ jobs:
         with:
           name: build
 
-      - name: Run ARM64 jpackage in Docker
+      - name: Build ${{ matrix.arch }} package in Docker
         run: |
-          docker run --rm --platform=linux/arm64 \
+          docker run --rm --platform=${{ matrix.platform }} \
             -v ${{ github.workspace }}:/workspace \
             -w /workspace \
-            debian:bullseye-slim /bin/bash -c "
+            ${{ matrix.distro }} /bin/bash -c "
+              set -e
               apt-get update && \
-              apt-get install -y curl unzip fakeroot binutils openjdk-17-jdk-headless && \
+              apt-get install -y curl unzip binutils fakeroot tar gzip ca-certificates && \
+              jdk_version='${{ inputs.java_version }}' && \
+              curl -L -o jdk.tar.gz \"https://api.adoptium.net/v3/binary/latest/\$jdk_version/ga/linux/${{ matrix.adoptium_arch }}/jdk/hotspot/normal/adoptium\" && \
+              mkdir -p /opt/java && \
+              tar -xzf jdk.tar.gz -C /opt/java --strip-components=1 && \
+              export PATH=\"/opt/java/bin:\$PATH\" && \
+              java -version && \
               mkdir -p jpackage-app && \
               jpackage \
-                --type deb \
+                --type ${{ matrix.jpkg_type }} \
                 --input '${{ inputs.jpackage_input }}' \
                 --main-jar '${{ inputs.jpackage_jarfile }}' \
                 --name '${{ inputs.jpackage_name }}' \
@@ -347,10 +379,10 @@ jobs:
                 ${{ inputs.jpackage_additional_options }}
             "
 
-      - name: Archive ARM package
+      - name: Archive ${{ matrix.arch }} package
         uses: actions/upload-artifact@v4
         with:
-          name: packages-deb-arm64
+          name: packages-${{ matrix.arch }}
           path: jpackage-app/
 
   merge_packages:
