@@ -302,7 +302,6 @@ jobs:
   ### Linux Build via QEMU
   ###
   jpackage_linux_multiarch:
-    if: ${{ inputs.build_linux_arm }}
     needs: build
     runs-on: ubuntu-latest
     strategy:
