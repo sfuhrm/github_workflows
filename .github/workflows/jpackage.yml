@@ -298,10 +298,59 @@ jobs:
           name: packages-${{ matrix.jpkg_type }}
           path: jpackage-app/${{ steps.packagename.outputs.packagename }}
 
+  ###
+  ### Linux ARM64 via QEMU
+  ###
+  jpackage_linux_arm:
+    needs: build
+    runs-on: ubuntu-latest
+    container:
+      image: multiarch/qemu-user-static
+    steps:
+      - name: Set up binfmt for ARM
+        run: |
+          docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+
+      - name: Run ARM64 jpackage in Docker
+        run: |
+          docker run --rm --platform=linux/arm64 \
+            -v ${{ github.workspace }}:/workspace \
+            -w /workspace \
+            debian:bullseye-slim /bin/bash -c "
+              apt-get update && \
+              apt-get install -y curl openjdk-${{ inputs.java_version }}-jdk-headless fakeroot binutils && \
+              update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-${{ inputs.java_version }}-openjdk-arm64/bin/java 1 && \
+              mkdir -p jpackage-app && \
+              jpackage \
+                --type deb \
+                --input '${{ inputs.jpackage_input }}' \
+                --main-jar '${{ inputs.jpackage_jarfile }}' \
+                --name '${{ inputs.jpackage_name }}' \
+                --app-version '${{ needs.build.outputs.version }}' \
+                --license-file '${{ inputs.jpackage_license }}' \
+                --linux-deb-maintainer '${{ inputs.jpackage_linux_deb_maintainer }}' \
+                --linux-app-category '${{ inputs.jpackage_linux_deb_app_category }}' \
+                --install-dir '${{ inputs.jpackage_linux_install_dir }}' \
+                --main-class '${{ inputs.jpackage_mainclass }}' \
+                --description '${{ inputs.jpackage_description }}' \
+                --vendor '${{ inputs.jpackage_vendor }}' \
+                --copyright '${{ inputs.jpackage_copyright }}' \
+                --dest jpackage-app \
+                --verbose \
+                ${{ inputs.jpackage_additional_options }}
+            "
+
+      - name: Archive ARM package
+        uses: actions/upload-artifact@v4
+        with:
+          name: packages-deb-arm64
+          path: jpackage-app/
+
   merge_packages:
     needs:
       - build
       - jpackage_linux
+      - jpackage_linux_arm
       - jpackage_macos
       - jpackage_windows
     runs-on: ubuntu-latest
