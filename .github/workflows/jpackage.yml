@@ -133,7 +133,7 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            container: debian:10
+            container: debian:bullseye-slim
             jpkg_type: deb
             style: debian
           - os: ubuntu-latest
