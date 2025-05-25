@@ -314,12 +314,12 @@ jobs:
             adoptium_arch: aarch64
           - arch: ppc64le
             platform: linux/ppc64le
-            distro: ubuntu:20.04
+            distro: debian:bullseye-slim
             jpkg_type: deb
             adoptium_arch: ppc64le
           - arch: s390x
             platform: linux/s390x
-            distro: ubuntu:20.04
+            distro: debian:bullseye-slim
             jpkg_type: deb
             adoptium_arch: s390x
 
