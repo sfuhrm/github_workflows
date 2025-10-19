@@ -94,7 +94,7 @@ jobs:
       run: mvn -B ${{ inputs.maven_target }} --file pom.xml
 
     - name: Archive Test Results
-      if: ${{ inputs.test_artifact_name != '' }}
+      if: ${{ always() && inputs.test_artifact_name != '' }}
       uses: actions/upload-artifact@v4
       with:
         name: ${{ inputs.test_artifact_name }}_${{ matrix.java_version }}
