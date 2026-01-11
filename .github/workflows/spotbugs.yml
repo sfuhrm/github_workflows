@@ -44,7 +44,7 @@ jobs:
     - name: Download spotbugs
       run: |
         mkdir /tmp/spotbugs
-        wget https://github.com/spotbugs/spotbugs/releases/download/4.9.3/spotbugs-4.9.8.tgz -O- | tar --strip-components=1 -C/tmp/spotbugs -xzvf- 
+        wget https://github.com/spotbugs/spotbugs/releases/download/4.9.8/spotbugs-4.9.8.tgz -O- | tar --strip-components=1 -C/tmp/spotbugs -xzvf- 
         wget https://search.maven.org/remotecontent?filepath=com/h3xstream/findsecbugs/findsecbugs-plugin/1.12.0/findsecbugs-plugin-1.12.0.jar -O/tmp/findsecbugs-plugin.jar
         wget https://repo1.maven.org/maven2/com/mebigfatguy/fb-contrib/fb-contrib/7.6.9/fb-contrib-7.6.9.jar -O/tmp/fb-contrib.jar
 
