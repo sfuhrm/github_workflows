@@ -65,7 +65,7 @@ jobs:
         echo artifact_name=${{ inputs.artifact_name }}
         echo artifact_path=${{ inputs.artifact_path }}
 
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
 
     - name: Set up JDK ${{ matrix.java_version }}
       uses: actions/setup-java@v5

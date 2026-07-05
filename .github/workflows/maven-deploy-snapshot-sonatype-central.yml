@@ -31,7 +31,7 @@ jobs:
     environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
       - name: Set up JDK ${{ inputs.java_version }}
         uses: actions/setup-java@v5
         with:
