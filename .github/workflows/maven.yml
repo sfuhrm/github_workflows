@@ -95,7 +95,7 @@ jobs:
 
     - name: Archive Test Results
       if: ${{ always() && inputs.test_artifact_name != '' }}
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: ${{ inputs.test_artifact_name }}_${{ matrix.java_version }}
         path: ${{ inputs.test_artifact_path }}
@@ -104,7 +104,7 @@ jobs:
       run: |
         ${{ inputs.postbuild_script }}
 
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v7
       with:
         name: ${{ inputs.artifact_name }}_${{ matrix.java_version }}
         path: ${{ inputs.artifact_path }}
