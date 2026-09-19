@@ -41,7 +41,7 @@ jobs:
     - name: Set up JDK ${{ inputs.java_version }}
       uses: actions/setup-java@v6
       with:
-        distribution: 'adopt'
+        distribution: 'temurin'
         java-version: ${{ inputs.java_version }}
 
     - name: Build with Maven
