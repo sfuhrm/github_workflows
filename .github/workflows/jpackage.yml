@@ -311,17 +311,17 @@ jobs:
             platform: linux/arm64
             distro: debian:bullseye-slim
             jpkg_type: deb
-            adoptium_arch: aarch64
+            temurin_arch: aarch64
           - arch: ppc64le
             platform: linux/ppc64le
             distro: ubuntu:20.04
             jpkg_type: deb
-            adoptium_arch: ppc64le
+            temurin_arch: ppc64le
           - arch: s390x
             platform: linux/s390x
             distro: ubuntu:20.04
             jpkg_type: deb
-            adoptium_arch: s390x
+            temurin_arch: s390x
 
     steps:
       - name: Checkout repository
@@ -348,7 +348,7 @@ jobs:
               apt-get update && \
               apt-get install -y curl unzip binutils fakeroot tar gzip ca-certificates && \
               jdk_version='${{ inputs.java_version }}' && \
-              curl -L -o jdk.tar.gz \"https://api.adoptium.net/v3/binary/latest/\$jdk_version/ga/linux/${{ matrix.adoptium_arch }}/jdk/hotspot/normal/adoptium\" && \
+              curl -L -o jdk.tar.gz \"https://api.adoptium.net/v3/binary/latest/\$jdk_version/ga/linux/${{ matrix.temurin_arch }}/jdk/hotspot/normal/eclipse\" && \
               mkdir -p /opt/java && \
               tar -xzf jdk.tar.gz -C /opt/java --strip-components=1 && \
               export PATH=\"/opt/java/bin:\$PATH\" && \
