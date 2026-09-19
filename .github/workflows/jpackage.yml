@@ -309,17 +309,17 @@ jobs:
         include:
           - arch: arm64
             platform: linux/arm64
-            distro: debian:bullseye-slim
+            distro: debian:bookworm-slim
             jpkg_type: deb
             temurin_arch: aarch64
           - arch: ppc64le
             platform: linux/ppc64le
-            distro: ubuntu:20.04
+            distro: ubuntu:24.04
             jpkg_type: deb
             temurin_arch: ppc64le
           - arch: s390x
             platform: linux/s390x
-            distro: ubuntu:20.04
+            distro: ubuntu:24.04
             jpkg_type: deb
             temurin_arch: s390x
 
